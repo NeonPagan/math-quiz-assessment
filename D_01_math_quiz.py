@@ -12,7 +12,7 @@ def instruction():
 
 **** Instructions ****
 
-To begin, chose how many rounds you would like to play or press enter for infinite mode 
+To begin, chose how many rounds you would like to play or press enter for Normal mode 
 
 Your goal is to try to get as many answers correct as possible 
 
@@ -46,9 +46,9 @@ def int_check(question):
 
         to_check = input(question)
 
-        # check for infinite mode
+        # check for Normal mode
         if to_check == "":
-            return "infinite"
+            return "Normal"
 
         try:
             response = int(to_check)
@@ -83,19 +83,19 @@ game_history = []
 all_scores = [0]
 
 
-# Ask user for number of rounds / infinite mode
-num_rounds = int_check("How many rounds would you like? Push <enter for an infinite mode: ")
+# Ask user for number of rounds / Normal mode
+num_rounds = int_check("How many rounds would you like? Push <enter for an Normal mode: ")
 
-if num_rounds == "":
-    mode = "infinite"
-    num_rounds = 5
+if num_rounds == "Normal":
+    mode = "Normal"
+    num_rounds = 10
 
 # Game loop starts here
 while rounds_played < num_rounds:
 
     # Rounds headings
-    if mode == "infinite":
-        rounds_heading = f"\n♾️♾️♾️ Round {rounds_played + 1} (Infinite Mode)♾️♾️♾️"
+    if mode == "Normal":
+        rounds_heading = f"\n➕➖✖️➗ Round {rounds_played + 1} of {num_rounds} ➕➖✖️➗"
     else:
         rounds_heading = f"\n➕➖✖️➗ Round {rounds_played + 1} of {num_rounds} ➕➖✖️➗"
 
@@ -105,18 +105,15 @@ while rounds_played < num_rounds:
     # addition question
     num1 = random.randint(1, 30)
     num2 = random.randint(1, 30)
-    print("What is ", num1, "+", num2, "=")
-    user_answer = int(input(""))
+    addition_question = int_check(f"What is {num1} + {num2} =")
     answer = num1 + num2
-    if user_answer == answer:
+    if addition_question == answer:
         print("Correct!")
     else:
         print("Incorrect!")
         rounds_lost +=1
 
-    # if user has entered exit code, end game!!
-    if user_answer == "xxx":
-        break
+
 
     rounds_played += 1
 
@@ -124,9 +121,7 @@ while rounds_played < num_rounds:
     history_feedback = f"Round {rounds_played}: {feedback}"
     game_history.append(history_feedback)
 
-    # if users are in infinite mode, increase number of rounds!
-    if mode == "infinite":
-        num_rounds += 1
+
 
 # Display the game history on request
 see_history = yes_no("Do you want to see your game history? ")
@@ -147,6 +142,4 @@ if see_history == "yes":
     print(f"👍 Correct: {rounds_won: } \t"
           f" 👎Incorrect: {rounds_lost: } \t")
 
-else:
-    print("You chickened out🐔🐔🐔")
 
