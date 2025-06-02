@@ -41,6 +41,7 @@ if instructions_ans == "yes":
 
 # checks for an integer more than 0 (allows <enter>)
 def int_check(question):
+    """Makes sure that the number of rounds is more than zero"""
     while True:
         error = "Please enter an integer that is 1 or more."
 
@@ -83,6 +84,7 @@ game_history = []
 all_scores = [0]
 
 
+
 # Ask user for number of rounds / Normal mode
 num_rounds = int_check("How many rounds would you like? Push <enter for an Normal mode: ")
 
@@ -109,37 +111,47 @@ while rounds_played < num_rounds:
     answer = num1 + num2
     if addition_question == answer:
         print("Correct!")
+        feedback = "✔️✔️You got that right ✔️✔️"
     else:
         print("Incorrect!")
+        feedback = "❌❌You got that wrong ❌❌"
         rounds_lost +=1
 
+# before calculating history and statistics
+
+    # Game History area
+    round_feedback = f"{addition_question} vs {answer}, {feedback}"
+    history_item = f"Round: {rounds_played} - {round_feedback}"
+
+    # Set up round feedback and output it user
+    print (round_feedback)
+    game_history.append(history_item)
 
 
     rounds_played += 1
 
-    # Add round result to game history
-    history_feedback = f"Round {rounds_played}: {feedback}"
-    game_history.append(history_feedback)
+# calculate stats if user has played at least one round
+if len(game_history) > 0:
 
+    # Display the game history on request
+    see_history = yes_no("Do you want to see your statistics? ")
+    if see_history == "yes":
+        for item in game_history:
+            print(item)
 
-
-# Display the game history on request
-see_history = yes_no("Do you want to see your game history? ")
-if see_history == "yes":
-    for item in game_history:
         print()
+        print("Thanks for playing.")
 
-# check users have played at least one round
+        # Calculate statistics
+        rounds_won = rounds_played - rounds_lost
+        rounds_lost = rounds_played - rounds_won
 
-    # Game History area
+        # Output Game Statistics
+        print("📊📊📊 Game Statistics 📊📊📊")
+        print(f"👍 Correct: {rounds_won: } \t"
+              f" 👎Incorrect: {rounds_lost: } \t")
 
-    # Calculate statistics
-    rounds_won = rounds_played  - rounds_lost
-    rounds_lost = rounds_played - rounds_won
 
-    # Output Game Statistics
-    print("📊📊📊 Game Statistics 📊📊📊")
-    print(f"👍 Correct: {rounds_won: } \t"
-          f" 👎Incorrect: {rounds_lost: } \t")
+
 
 
